@@ -64,18 +64,44 @@ void ARifle::Shoot()
 		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ShootEffect, socketTransform);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NS_Shoot, socketTransform.GetLocation(), socketTransform.GetRotation().Rotator(), FVector(2.1f, 2.1f,2.1f), true, true, ENCPoolMethod::FreeInPool, true);
 		}
-		
-		FHitResult hit;																							 
-		FVector start = socket->GetSocketTransform(Mesh).GetLocation();
-		FVector end = (socket->GetSocketTransform(Mesh).GetRotation().GetForwardVector() * 1000) + start;
-		GetWorld()->LineTraceSingleByChannel(hit, start, end, ECollisionChannel::ECC_Visibility);
-		
-		if (hit.bBlockingHit) {
-			//DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 1.0f);
-			//DrawDebugPoint(GetWorld(), hit.ImpactPoint,120.0f,FColor::Blue, false, 1.0f);
-			if(NS_Impact)
-			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NS_Impact, hit.ImpactPoint, hit.ImpactNormal.Rotation(), FVector(2.1f, 2.1f, 2.1f), true, true, ENCPoolMethod::FreeInPool, true);
+		FVector2D viewportSize;
+		FVector WorldPosition;
+		FVector WorldRotation;
+		if (GEngine && GEngine->GameViewport) {
+			GEngine->GameViewport->GetViewportSize(viewportSize);
 		}
+		UE_LOG(LogTemp, Warning, TEXT("Empieza el calculo"));
+		FVector2D crosshairLocation(viewportSize.X / 2.0f, viewportSize.Y / 2.0f);
+		crosshairLocation.Y -= 20.f;
+		bool bCrosshhairPos = UGameplayStatics::DeprojectScreenToWorld(UGameplayStatics::GetPlayerController(this, 0), crosshairLocation, WorldPosition, WorldRotation);
+		if (bCrosshhairPos) {
+			UE_LOG(LogTemp, Warning, TEXT("Calculamos las coordenadas del mundo"));
+			FHitResult ScreenTracehit;
+			const FVector Start = WorldPosition;
+			const FVector End = WorldPosition + WorldRotation * 1150.0f;
+			FVector BeamEndPoint = End;
+			GetWorld()->LineTraceSingleByChannel(ScreenTracehit, Start, End, ECollisionChannel::ECC_Visibility	);
+			if (ScreenTracehit.bBlockingHit) {
+				UE_LOG(LogTemp, Warning, TEXT("Impacto algo"));
+				BeamEndPoint = ScreenTracehit.Location;
+				if (NS_Impact) {
+					UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NS_Impact, ScreenTracehit.Location, ScreenTracehit.ImpactNormal.Rotation(), FVector(2.1f, 2.1f, 2.1f), true, true, ENCPoolMethod::FreeInPool, true);
+				}
+					
+
+			}
+		}
+		//FHitResult hit;																							 
+		//FVector start = socket->GetSocketTransform(Mesh).GetLocation();
+		//FVector end = (socket->GetSocketTransform(Mesh).GetRotation().GetForwardVector() * 1000) + start;
+		//GetWorld()->LineTraceSingleByChannel(hit, start, end, ECollisionChannel::ECC_Visibility);
+		//
+		//if (hit.bBlockingHit) {
+		//	//DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 1.0f);
+		//	//DrawDebugPoint(GetWorld(), hit.ImpactPoint,120.0f,FColor::Blue, false, 1.0f);
+		//	if(NS_Impact)
+		//	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NS_Impact, hit.ImpactPoint, hit.ImpactNormal.Rotation(), FVector(2.1f, 2.1f, 2.1f), true, true, ENCPoolMethod::FreeInPool, true);
+		//}
 	}
 }
 
