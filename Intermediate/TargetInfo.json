@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "ShooterZombie",
+			"Path": "F:\\UnrealProjects\\ShooterZombie\\Source\\ShooterZombie.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "ShooterZombieEditor",
+			"Path": "F:\\UnrealProjects\\ShooterZombie\\Source\\ShooterZombieEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

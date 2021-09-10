@@ -1,0 +1,2 @@
+F:\UnrealProjects\ShooterZombie\Intermediate\Build\Win64\UE4Editor\Development\ShooterZombie\Definitions.ShooterZombie.h
+F:\UnrealProjects\ShooterZombie\Source\ShooterZombie\ShooterZombie.h

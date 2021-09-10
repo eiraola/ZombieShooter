@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\ShooterZombie.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{B5C921AF-F6DC-4CB9-9C7B-B2812040C225}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\ShooterZombie.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\ShooterZombieEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\SCK_Casual01.png" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{36236144-B520-441C-8813-1C58153BF7C1}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\ShooterZombie">
+      <UniqueIdentifier>{72028687-C4C1-4FDE-B1DD-5990C8E7A51E}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\ShooterZombie\Rifle.cpp">
+      <Filter>Source\ShooterZombie</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\ShooterZombie\Rifle.h">
+      <Filter>Source\ShooterZombie</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\ShooterZombie\ShooterAnimInstance.cpp">
+      <Filter>Source\ShooterZombie</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\ShooterZombie\ShooterAnimInstance.h">
+      <Filter>Source\ShooterZombie</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\ShooterZombie\ShooterMain.cpp">
+      <Filter>Source\ShooterZombie</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\ShooterZombie\ShooterMain.h">
+      <Filter>Source\ShooterZombie</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\ShooterZombie\ShooterZombie.Build.cs">
+      <Filter>Source\ShooterZombie</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\ShooterZombie\ShooterZombie.cpp">
+      <Filter>Source\ShooterZombie</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\ShooterZombie\ShooterZombie.h">
+      <Filter>Source\ShooterZombie</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\ShooterZombie\ShooterZombieGameModeBase.cpp">
+      <Filter>Source\ShooterZombie</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\ShooterZombie\ShooterZombieGameModeBase.h">
+      <Filter>Source\ShooterZombie</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
