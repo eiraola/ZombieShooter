@@ -30,6 +30,10 @@ public:
 	class UNiagaraSystem* NS_Shoot;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
 	class UNiagaraSystem* NS_Impact;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
+	class UParticleSystem* CC_Impact;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
+	class UParticleSystem* CC_Shoot;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UFUNCTION()

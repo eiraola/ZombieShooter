@@ -33,11 +33,33 @@ public:
 	class USoundCue*  shootingSound;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combata)
 	bool HasWeapon;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combata)
+	bool bIsAiming;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combata)
+	float regularFOV;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combata)
+	float zoomedFOV;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combata)
+	float currentFOV;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combata)
+	float FOVZoomInterpSpeed;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combata)
+	float hipTurnRate;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combata)
+	float hipLookUpRate;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combata)
+	float AimTurnRate;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combata)
+	float AimLookUpRate;
 private:
 	void MoveForward(float value);
 	void MoveRight(float value);
 	void Aim();
 	void StopAim();
+	void SetAiminFOV(float DeltaTime);
+
+
+
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = true))
 	class USpringArmComponent* CameraBoom;
@@ -53,6 +75,8 @@ private:
 	void PlayShootAnimation();
 	
 public:
+	UFUNCTION(BlueprintCallable)
+	bool IsAiming();
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetCamera() const { return FollowCamera; }
 	void SetWeapon(AActor* weapon);

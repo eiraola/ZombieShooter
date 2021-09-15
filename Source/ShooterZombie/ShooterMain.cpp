@@ -12,9 +12,14 @@
 // Sets default values
 AShooterMain::AShooterMain()
 {
+	bIsAiming = false;
 	HasWeapon = false;
 	BaseTurnRate = 25;
 	BlaseLookUpRate = 25;
+	regularFOV = 0.f;
+	zoomedFOV = 40.f;
+	currentFOV = 0.0f;
+	FOVZoomInterpSpeed = 15.f;
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -23,7 +28,7 @@ AShooterMain::AShooterMain()
 	CameraBoom->bUsePawnControlRotation = true;
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	CameraBoom->SocketOffset =  FVector(0.0f, 50.0f, 50.0f);
+	CameraBoom->SocketOffset =  FVector(30.0f, 50.0f, 50.0f);
 	FollowCamera->bUsePawnControlRotation = false;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -39,6 +44,10 @@ AShooterMain::AShooterMain()
 void AShooterMain::BeginPlay()
 {
 	Super::BeginPlay();
+	if (FollowCamera) {
+		regularFOV = FollowCamera->FieldOfView;
+		currentFOV = FollowCamera->FieldOfView;
+	}
 	
 }
 
@@ -46,9 +55,20 @@ void AShooterMain::BeginPlay()
 void AShooterMain::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	SetAiminFOV(DeltaTime);
+}
+void AShooterMain::SetAiminFOV(float DeltaTime) {
+	if (bIsAiming) {
+		currentFOV = FMath::FInterpTo(currentFOV, zoomedFOV,DeltaTime, FOVZoomInterpSpeed);
+	}
+	else {
+		currentFOV = FMath::FInterpTo(currentFOV, regularFOV, DeltaTime, FOVZoomInterpSpeed);
+		
+	}
+	if (FollowCamera)
+		FollowCamera->FieldOfView = currentFOV;
 
 }
-
 // Called to bind functionality to input
 void AShooterMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -95,12 +115,16 @@ void AShooterMain::Aim()
 {
 	bUseControllerRotationYaw = true;
 	GetCharacterMovement()->bOrientRotationToMovement = false;
+	bIsAiming = true;
+	
 }
 
 void AShooterMain::StopAim()
 {
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+	bIsAiming = false;
+	
 }
 
 void AShooterMain::TurnAtRate(float value)
@@ -134,7 +158,7 @@ void AShooterMain::FireWeapon()
 void AShooterMain::PlayShootAnimation()
 {
 	UAnimInstance* anim = GetMesh()->GetAnimInstance();
-	if (GetCharacterMovement()->Velocity.Size() > 0.1) {
+	if (!bIsAiming) {
 		anim->Montage_Play(montage);
 		anim->Montage_JumpToSection(FName("FireHip"), montage);
 	}
@@ -155,6 +179,10 @@ void AShooterMain::SetWeapon(AActor* weapon)
 		RightHandSock->AttachActor(rifle, GetMesh());
 		Weapon = rifle;
 	}
+}
+bool AShooterMain::IsAiming() {
+	return bIsAiming;
+
 }
 
 

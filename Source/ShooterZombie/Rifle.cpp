@@ -61,8 +61,8 @@ void ARifle::Shoot()
 		if(NS_Shoot){
 			
 			
-		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ShootEffect, socketTransform);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NS_Shoot, socketTransform.GetLocation(), socketTransform.GetRotation().Rotator(), FVector(2.1f, 2.1f,2.1f), true, true, ENCPoolMethod::FreeInPool, true);
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), CC_Shoot, socketTransform.GetLocation(), socketTransform.GetRotation().Rotator(), FVector(0.25f, 0.25f, 0.25f));
+		//UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NS_Shoot, socketTransform.GetLocation(), socketTransform.GetRotation().Rotator(), FVector(2.1f, 2.1f,2.1f), true, true, ENCPoolMethod::FreeInPool, true);
 		}
 		FVector2D viewportSize;
 		FVector WorldPosition;
@@ -85,7 +85,17 @@ void ARifle::Shoot()
 				UE_LOG(LogTemp, Warning, TEXT("Impacto algo"));
 				BeamEndPoint = ScreenTracehit.Location;
 				if (NS_Impact) {
-					UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NS_Impact, ScreenTracehit.Location, ScreenTracehit.ImpactNormal.Rotation(), FVector(2.1f, 2.1f, 2.1f), true, true, ENCPoolMethod::FreeInPool, true);
+					FHitResult hit;
+					FVector start = socket->GetSocketTransform(Mesh).GetLocation();
+					FVector end = (start + ((ScreenTracehit.Location - start)*2));
+					GetWorld()->LineTraceSingleByChannel(hit, start, end , ECollisionChannel::ECC_Visibility);
+					DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 1.0f);
+					if (hit.bBlockingHit) {
+						UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), CC_Impact, hit.Location, hit.ImpactNormal.Rotation(), FVector(0.5f, 0.5f,0.5f));
+						DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 1.0f);
+						//UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), NS_Impact, hit.Location, hit.ImpactNormal.Rotation(), FVector(2.1f, 2.1f, 2.1f), true, true, ENCPoolMethod::FreeInPool, true);
+					}
+					
 				}
 					
 

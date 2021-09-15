@@ -28,5 +28,9 @@ public:
 	bool bIsAccelerating;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool bHasWeapon;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MovementOffset;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsAiming;
 	
 };
